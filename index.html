@@ -7,234 +7,182 @@
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
-:root {
-  --bg:#f4f6fb; --surface:#fff; --border:#e4e7f0; --border2:#eef0f6;
-  --text:#0f172a; --text2:#475569; --text3:#94a3b8;
-  --accent:#1e3a5f; --blue:#2563eb; --gold:#d97706;
-  --mono:'DM Mono',monospace; --sans:'Sarabun',sans-serif;
+:root{
+  --bg:#f4f6fb;--surface:#fff;--border:#e4e7f0;--border2:#eef0f6;
+  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --accent:#1e3a5f;--blue:#2563eb;--gold:#d97706;
+  --mono:'DM Mono',monospace;--sans:'Sarabun',sans-serif;
   --sh:0 1px 4px rgba(0,0,0,.06),0 4px 20px rgba(0,0,0,.04);
-  --sh2:0 6px 32px rgba(0,0,0,.10);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh}
-
 #loading{position:fixed;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:14px}
 .spinner{width:36px;height:36px;border-radius:50%;border:2.5px solid var(--border);border-top-color:var(--blue);animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-#loading p{color:var(--text3);font-size:15px}
-
-#error-box{display:none;max-width:480px;margin:80px auto;padding:36px;background:#fff;border:1px solid #fecaca;border-radius:18px;text-align:center;box-shadow:var(--sh)}
-#error-box h3{color:#ef4444;margin-bottom:10px;font-size:18px}
-#error-box p{color:var(--text2);font-size:15px;line-height:1.7}
-#error-box code{background:#fef2f2;padding:2px 7px;border-radius:4px;font-size:13px;color:#ef4444}
+#loading p{color:var(--text3);font-size:14px}
+#error-box{display:none;max-width:480px;margin:80px auto;padding:32px;background:#fff;border:1px solid #fecaca;border-radius:16px;text-align:center;box-shadow:var(--sh)}
+#error-box h3{color:#ef4444;margin-bottom:8px}
+#error-box p{color:var(--text2);font-size:13px;line-height:1.7}
 
 /* HEADER */
-.header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 48px;height:70px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.hl{display:flex;align-items:center;gap:14px}
-.logo{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#6366f1,#ec4899,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 16px rgba(99,102,241,.35)}
-.header h1{font-size:20px;font-weight:800;color:var(--accent)}
-.header-sub{font-size:13px;color:var(--text3);margin-top:2px}
-.hr{display:flex;gap:10px}
-.btn{display:flex;align-items:center;gap:6px;border:none;border-radius:10px;padding:9px 18px;font-size:15px;font-weight:700;font-family:var(--sans);cursor:pointer;transition:all .15s}
+.header{background:#fff;border-bottom:1px solid var(--border);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.hl{display:flex;align-items:center;gap:12px}
+.logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#6366f1,#ec4899,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 14px rgba(99,102,241,.3);flex-shrink:0}
+.htitle{font-size:18px;font-weight:800;color:var(--accent)}
+.hsub{font-size:12px;color:var(--text3);margin-top:1px}
+.hbtns{display:flex;gap:8px}
+.btn{display:flex;align-items:center;gap:6px;border:none;border-radius:9px;padding:8px 16px;font-size:14px;font-weight:700;font-family:var(--sans);cursor:pointer;transition:all .15s;white-space:nowrap}
 .btn-g{background:transparent;color:var(--text2);border:1.5px solid var(--border)}
-.btn-g:hover{background:var(--bg)}
-.btn-d{background:var(--accent);color:#fff;box-shadow:0 2px 10px rgba(30,58,95,.25)}
-.btn-d:hover{background:#162d4a;transform:translateY(-1px)}
+.btn-d{background:var(--accent);color:#fff}
 
 /* MONTH BAR */
-.mbar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.mbar-lbl{font-size:15px;font-weight:700;color:var(--text3);margin-right:6px;text-transform:uppercase;letter-spacing:.5px}
-.mbtn{border:1.5px solid var(--border);border-radius:30px;padding:9px 22px;font-size:16px;font-weight:600;font-family:var(--sans);cursor:pointer;background:#fff;color:var(--text2);transition:all .15s;white-space:nowrap}
-.mbtn:hover{border-color:var(--blue);color:var(--blue);background:#eff6ff}
-.mbtn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 2px 10px rgba(30,58,95,.22)}
+.mbar{background:#fff;border-bottom:1px solid var(--border);padding:11px 32px;display:flex;align-items:center;gap:8px;overflow-x:auto}
+.mbar::-webkit-scrollbar{display:none}
+.mbar-lbl{font-size:12px;font-weight:700;color:var(--text3);white-space:nowrap;flex-shrink:0;text-transform:uppercase;letter-spacing:.5px}
+.mbtn{border:1.5px solid var(--border);border-radius:24px;padding:6px 16px;font-size:13px;font-weight:600;font-family:var(--sans);cursor:pointer;background:#fff;color:var(--text2);transition:all .15s;white-space:nowrap;flex-shrink:0}
+.mbtn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
 /* MAIN */
-.main{padding:30px 48px;max-width:1360px;margin:0 auto}
+.main{padding:24px 32px;max-width:1360px;margin:0 auto}
 
 /* KPI */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
-.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:var(--sh);position:relative;overflow:hidden;transition:box-shadow .2s,transform .2s;animation:fu .4s ease both}
-.kpi-card:hover{box-shadow:var(--sh2);transform:translateY(-2px)}
-.kpi-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--kc);opacity:.3}
-.kpi-card:nth-child(1){--kc:#2563eb;animation-delay:.00s}
-.kpi-card:nth-child(2){--kc:#d97706;animation-delay:.06s}
-.kpi-card:nth-child(3){--kc:#059669;animation-delay:.12s}
-.kpi-card:nth-child(4){--kc:#7c3aed;animation-delay:.18s}
-.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.kpi-icon{width:56px;height:56px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:28px;background:color-mix(in srgb,var(--kc) 12%,transparent);border:1.5px solid color-mix(in srgb,var(--kc) 18%,transparent)}
-.kpi-badge{font-size:14px;font-weight:600;color:var(--text3);background:var(--bg);border:1px solid var(--border2);border-radius:7px;padding:4px 10px;font-family:var(--mono)}
-.kpi-val{font-size:46px;font-weight:800;color:var(--text);font-family:var(--mono);letter-spacing:-2px;line-height:1}
-.kpi-val span{font-size:18px;font-weight:500;color:var(--text3)}
-.kpi-label{font-size:15px;color:var(--text3);margin-top:7px;text-transform:uppercase;letter-spacing:.6px;font-weight:600}
-@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.kpi-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.kpi-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--kc);opacity:.25}
+.kpi-card:nth-child(1){--kc:#2563eb}
+.kpi-card:nth-child(2){--kc:#d97706}
+.kpi-card:nth-child(3){--kc:#059669}
+.kpi-card:nth-child(4){--kc:#7c3aed}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.kpi-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;background:color-mix(in srgb,var(--kc) 10%,transparent)}
+.kpi-badge{font-size:11px;color:var(--text3);background:var(--bg);border:1px solid var(--border2);border-radius:6px;padding:3px 7px;font-family:var(--mono)}
+.kpi-val{font-size:34px;font-weight:800;color:var(--text);font-family:var(--mono);letter-spacing:-1px;line-height:1}
+.kpi-val span{font-size:14px;font-weight:500;color:var(--text3)}
+.kpi-label{font-size:11px;color:var(--text3);margin-top:6px;text-transform:uppercase;letter-spacing:.6px;font-weight:600}
 
-/* CHARTS */
-.charts-row{display:grid;grid-template-columns:3fr 2fr;gap:16px;margin-bottom:20px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:var(--sh);animation:fu .4s ease both}
-.card:nth-child(1){animation-delay:.24s}
-.card:nth-child(2){animation-delay:.30s}
-.card-title{font-size:20px;font-weight:800;color:var(--text);margin-bottom:4px}
-.card-sub{font-size:15px;color:var(--text3);margin-bottom:20px}
-.chart-wrap{position:relative;height:280px}
+/* CARDS */
+.charts-row{display:grid;grid-template-columns:3fr 2fr;gap:14px;margin-bottom:14px}
+.late-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--sh)}
+.card-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:3px}
+.card-sub{font-size:12px;color:var(--text3);margin-bottom:14px}
+.chart-wrap{position:relative;height:250px}
 
-/* TABLE */
-.tc{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--sh);animation:fu .4s ease .36s both}
-.tt{padding:20px 28px 16px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
-.tt h2{font-size:20px;font-weight:800;color:var(--text)}
-.tt p{font-size:15px;color:var(--text3);margin-top:3px}
-.tpill{background:#fffbeb;border:1.5px solid #fde68a;border-radius:10px;padding:8px 18px;font-size:17px;font-weight:800;color:var(--gold);font-family:var(--mono)}
-.thead{display:grid;grid-template-columns:56px 1fr 130px 150px 160px;padding:12px 28px;background:#fafbfd;border-bottom:1px solid var(--border2)}
-.thead span{font-size:14px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.7px}
-.thead span:nth-child(n+3){text-align:right}
-.trow{display:grid;grid-template-columns:56px 1fr 130px 150px 160px;padding:18px 28px;align-items:center;border-bottom:1px solid var(--border2);transition:background .1s}
-.trow:last-child{border-bottom:none}
-.trow:hover{background:#fafbfd}
-.tnum{font-size:15px;color:var(--text3);font-family:var(--mono)}
-.tname{display:flex;align-items:center;gap:12px}
-.tavatar{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex-shrink:0}
-.tnametext{font-size:20px;font-weight:700;color:var(--text)}
-.tdaycell{text-align:right}
-.tdaywrap{display:flex;align-items:center;justify-content:flex-end;gap:8px}
-.tbar{width:50px;height:6px;border-radius:3px;background:var(--border2);overflow:hidden;flex-shrink:0}
-.tbarfill{height:100%;border-radius:3px}
-.tdaynum{font-size:18px;font-weight:700;color:var(--text);font-family:var(--mono);min-width:24px}
-.trate{text-align:right;font-size:16px;color:var(--text3);font-family:var(--mono)}
-.twage{text-align:right}
-.twagenum{font-size:20px;font-weight:800;color:var(--text);font-family:var(--mono)}
-.twagebar{width:72px;height:4px;border-radius:2px;background:var(--border2);overflow:hidden;margin-top:5px;margin-left:auto}
-.twagebfill{height:100%;border-radius:2px}
-.tfoot{display:grid;grid-template-columns:56px 1fr 130px 150px 160px;padding:18px 28px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border-top:2px solid #fde68a;align-items:center}
-.tflabel{font-size:17px;font-weight:800;color:var(--gold)}
-.tfdays{text-align:right;font-size:17px;font-weight:800;color:var(--gold);font-family:var(--mono)}
-.tfwage{text-align:right;font-size:24px;font-weight:800;color:var(--gold);font-family:var(--mono)}
-.pfooter{text-align:center;padding:20px 0 6px;color:var(--text3);font-size:14px}
+/* LATE */
+.lbadge{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:700;font-family:var(--mono)}
+.lok{background:#f0fdf4;color:#059669;border:1px solid #86efac}
+.lwarn{background:#fffbeb;color:#d97706;border:1px solid #fcd34d}
+.lbad{background:#fef2f2;color:#ef4444;border:1px solid #fca5a5}
+.ldot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
 
-/* LATE CHART */
-.late-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
-.late-badge{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:700;font-family:var(--mono)}
-.late-ok  {background:#f0fdf4;color:#059669;border:1px solid #86efac}
-.late-warn{background:#fffbeb;color:#d97706;border:1px solid #fcd34d}
-.late-bad {background:#fef2f2;color:#ef4444;border:1px solid #fca5a5}
-.late-dot {width:7px;height:7px;border-radius:50%;background:currentColor}
+/* TABLE — ใช้ HTML table จริงๆ ไม่ใช้ grid */
+.tc{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--sh)}
+.tt{padding:16px 22px 12px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.tt-title{font-size:17px;font-weight:800;color:var(--text)}
+.tt-sub{font-size:12px;color:var(--text3);margin-top:2px}
+.tpill{background:#fffbeb;border:1.5px solid #fde68a;border-radius:8px;padding:5px 12px;font-size:14px;font-weight:800;color:var(--gold);font-family:var(--mono);white-space:nowrap}
+.dtable{width:100%;border-collapse:collapse}
+.dtable thead th{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;padding:10px 18px;background:#fafbfd;border-bottom:1px solid var(--border2);text-align:left;white-space:nowrap}
+.dtable thead th.r{text-align:right}
+.dtable tbody tr{border-bottom:1px solid var(--border2);transition:background .1s}
+.dtable tbody tr:last-child{border-bottom:none}
+.dtable tbody tr:hover{background:#fafbfd}
+.dtable td{padding:14px 18px;vertical-align:middle}
+.dtable td.r{text-align:right}
+.dtable tfoot td{padding:13px 18px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border-top:2px solid #fde68a;font-weight:800;color:var(--gold)}
+.dtable tfoot td.r{text-align:right}
+.cname{display:flex;align-items:center;gap:11px}
+.avatar{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;flex-shrink:0}
+.ntext{font-size:17px;font-weight:700;color:var(--text)}
+.daywrap{display:flex;align-items:center;justify-content:flex-end;gap:7px}
+.dbar{width:42px;height:5px;border-radius:3px;background:var(--border2);overflow:hidden;flex-shrink:0}
+.dbarfill{height:100%;border-radius:3px}
+.daynum{font-size:15px;font-weight:700;color:var(--text);font-family:var(--mono)}
+.rtext{font-size:13px;color:var(--text3);font-family:var(--mono)}
+.wnum{font-size:17px;font-weight:800;color:var(--text);font-family:var(--mono)}
+.wbar{width:60px;height:3px;border-radius:2px;background:var(--border2);overflow:hidden;margin-top:3px;margin-left:auto}
+.wbarfill{height:100%;border-radius:2px}
 
-/* ── MOBILE ── */
-@media(max-width:768px){
-  /* header */
-  .header{padding:0 16px;height:60px}
-  .logo{width:38px;height:38px;font-size:18px}
-  .header h1{font-size:16px}
-  .header-sub{display:none}
-  .btn{padding:7px 12px;font-size:13px}
-  .btn-g{display:none} /* ซ่อนปุ่ม refresh บนมือถือ */
-
-  /* month bar */
-  .mbar{padding:10px 16px;gap:8px;overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}
-  .mbar::-webkit-scrollbar{display:none}
-  .mbar-lbl{display:none}
-  .mbtn{padding:7px 16px;font-size:14px;flex-shrink:0}
-
-  /* main */
-  .main{padding:16px}
-
-  /* KPI 2x2 */
-  .kpi-grid{grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-  .kpi-card{padding:16px}
-  .kpi-icon{width:40px;height:40px;font-size:20px}
-  .kpi-val{font-size:30px;letter-spacing:-1px}
-  .kpi-val span{font-size:14px}
-  .kpi-label{font-size:12px}
-  .kpi-badge{font-size:11px;padding:2px 7px}
-
-  /* charts 1 col */
-  .charts-row{grid-template-columns:1fr;gap:12px;margin-bottom:14px}
-  .late-row{grid-template-columns:1fr;gap:12px;margin-bottom:14px}
-  .card{padding:16px}
-  .card-title{font-size:16px}
-  .card-sub{font-size:13px;margin-bottom:14px}
-  .chart-wrap{height:220px}
-
-  /* table → card style */
-  .tt{padding:14px 16px 12px;flex-wrap:wrap;gap:8px}
-  .tt h2{font-size:16px}
-  .tt p{font-size:13px}
-  .tpill{font-size:14px;padding:6px 12px}
-  .thead{display:none} /* ซ่อน header แถว */
-  .trow{
-    display:flex;flex-direction:column;
-    padding:14px 16px;gap:6px;
-    border-bottom:1px solid var(--border2);
-  }
-  .trow-top{display:flex;align-items:center;justify-content:space-between}
-  .tnum{display:none}
-  .tname{gap:10px}
-  .tavatar{width:38px;height:38px;font-size:16px}
-  .tnametext{font-size:17px}
-  .tdaycell,.trate,.twage{text-align:left}
-  .tdaywrap{justify-content:flex-start}
-  .tbar{width:60px}
-  .tdaynum{font-size:16px}
-  .trate{font-size:14px;color:var(--text3)}
-  .twagenum{font-size:18px}
-  .twagebar{margin-left:0;width:100%}
-  .tfoot{
-    display:flex;justify-content:space-between;align-items:center;
-    padding:14px 16px;flex-wrap:wrap;gap:6px
-  }
-  .tflabel{font-size:14px}
-  .tfdays{text-align:left;font-size:14px}
-  .tfwage{font-size:20px}
-
-  /* late list */
-  #lateList div{padding:8px 0}
-  .late-badge{font-size:12px}
-}
-
-@media(max-width:400px){
-  .kpi-grid{grid-template-columns:1fr 1fr}
-  .kpi-val{font-size:24px}
-}
+.pfooter{text-align:center;padding:16px 0 4px;color:var(--text3);font-size:12px}
 
 @media print{
   body{background:#fff!important}
   .header{position:static!important}
-  .mbar,.btn{display:none!important}
-  .kpi-card,.card,.tc{box-shadow:none!important;border:1px solid #e2e8f0!important}
+  .mbar,.hbtns{display:none!important}
   body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   @page{size:A4;margin:12mm}
+}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .header{padding:0 14px;height:56px}
+  .logo{width:36px;height:36px;font-size:18px}
+  .htitle{font-size:15px}
+  .hsub{display:none}
+  .btn-g{display:none}
+  .btn-d{padding:7px 12px;font-size:13px}
+  .mbar{padding:9px 14px}
+  .mbar-lbl{display:none}
+  .main{padding:12px}
+  .kpi-grid{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+  .kpi-card{padding:14px}
+  .kpi-icon{width:36px;height:36px;font-size:18px}
+  .kpi-val{font-size:24px}
+  .kpi-val span{font-size:12px}
+  .kpi-label{font-size:10px}
+  .kpi-badge{font-size:10px;padding:2px 5px}
+  .charts-row{grid-template-columns:1fr;gap:10px;margin-bottom:10px}
+  .late-row{grid-template-columns:1fr;gap:10px;margin-bottom:10px}
+  .card{padding:14px}
+  .card-title{font-size:14px}
+  .chart-wrap{height:190px}
+  /* TABLE → ซ่อน desktop columns ยาก แสดง mobile card แทน */
+  .dtable thead{display:none}
+  .dtable tbody tr{display:flex;flex-wrap:wrap;padding:12px 14px;gap:4px}
+  .dtable tbody td{display:none}
+  .dtable tbody td.m-show{display:flex}
+  .dtable tfoot{display:flex}
+  .dtable tfoot tr{display:flex;width:100%;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  .dtable tfoot td{display:flex;align-items:center;padding:12px 14px}
+  .dtable tfoot td.hide-m{display:none}
+  .cname{width:100%}
+  .ntext{font-size:16px}
+  .avatar{width:36px;height:36px;font-size:15px}
+  .m-wage-row{display:flex;width:100%;justify-content:space-between;align-items:center}
 }
 </style>
 </head>
 <body>
 
 <div id="loading"><div class="spinner"></div><p>กำลังโหลดข้อมูล...</p></div>
-
 <div id="error-box">
-  <h3>⚠️ ไม่สามารถดึงข้อมูลได้</h3>
-  <p>กรุณาตรวจสอบว่า:<br>1. แก้ <code>SHEET_URL</code> ให้ถูกต้อง<br>2. Publish Sheet3 → File → Share → Publish to web → CSV</p>
+  <h3>⚠️ โหลดข้อมูลไม่ได้</h3>
+  <p>ตรวจสอบ SHEET_URL และ Publish Sheet3 เป็น CSV</p>
 </div>
 
 <div id="app" style="display:none">
   <div class="header">
     <div class="hl">
       <div class="logo">👥</div>
-      <div><h1>HR Analytics</h1><div class="header-sub">รายงานการทำงานพนักงาน</div></div>
+      <div><div class="htitle">HR Analytics</div><div class="hsub">รายงานการทำงานพนักงาน</div></div>
     </div>
-    <div class="hr">
+    <div class="hbtns">
       <button class="btn btn-g" onclick="loadData()">🔄 รีเฟรช</button>
-      <button class="btn btn-d" onclick="window.print()">⬇ Export PDF</button>
+      <button class="btn btn-d" onclick="window.print()">⬇ PDF</button>
     </div>
   </div>
 
   <div class="mbar">
     <span class="mbar-lbl">📅 เดือน</span>
-    <div id="mbtns" style="display:flex;gap:10px;flex-wrap:wrap"></div>
+    <div id="mbtns" style="display:flex;gap:7px"></div>
   </div>
 
   <div class="main">
     <div class="kpi-grid" id="kpiGrid"></div>
+
     <div class="charts-row">
       <div class="card">
-        <div class="card-title">เปรียบเทียบค่าแรงพนักงาน</div>
+        <div class="card-title">เปรียบเทียบค่าแรง</div>
         <div class="card-sub">เรียงจากมากไปน้อย</div>
         <div class="chart-wrap"><canvas id="wageChart"></canvas></div>
       </div>
@@ -245,35 +193,47 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
       </div>
     </div>
 
-    <!-- LATE CHART ROW -->
     <div class="late-row">
-      <div class="card" style="animation-delay:.36s">
+      <div class="card">
         <div class="card-title">⚠️ สายบ่อยไหม?</div>
-        <div class="card-sub">จำนวนครั้งที่เข้าหลัง 08:00 น.</div>
+        <div class="card-sub">ครั้งที่เข้าหลัง 08:00 น.</div>
         <div class="chart-wrap"><canvas id="lateChart"></canvas></div>
       </div>
-      <div class="card" style="animation-delay:.42s">
+      <div class="card">
         <div class="card-title">📋 สรุปรายคน</div>
-        <div class="card-sub">เข้าสายมากกว่า 3 ครั้ง = ⚠️ ต้องระวัง</div>
-        <div id="lateList" style="margin-top:6px"></div>
+        <div class="card-sub">สาย &gt; 3 ครั้ง = ⚠️ ต้องระวัง</div>
+        <div id="lateList"></div>
       </div>
     </div>
 
     <div class="tc">
       <div class="tt">
-        <div><h2>ตารางการทำงานและค่าแรง</h2><p id="tsub"></p></div>
+        <div>
+          <div class="tt-title">ตารางการทำงานและค่าแรง</div>
+          <div class="tt-sub" id="tsub"></div>
+        </div>
         <div class="tpill" id="tpill"></div>
       </div>
-      <div class="thead">
-        <span>#</span><span>ชื่อพนักงาน</span>
-        <span>วันทำงาน</span><span>อัตรา/วัน</span><span>ค่าแรงรวม</span>
-      </div>
-      <div id="tbody"></div>
-      <div class="tfoot">
-        <div></div><div class="tflabel">รวมทั้งหมด</div>
-        <div class="tfdays" id="fdays"></div><div></div>
-        <div class="tfwage" id="fwage"></div>
-      </div>
+      <table class="dtable">
+        <thead>
+          <tr>
+            <th style="width:46px">#</th>
+            <th>ชื่อพนักงาน</th>
+            <th class="r" style="width:130px">วันทำงาน</th>
+            <th class="r" style="width:130px">อัตรา/วัน</th>
+            <th class="r" style="width:150px">ค่าแรงรวม</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">รวมทั้งหมด</td>
+            <td class="r" id="fdays"></td>
+            <td class="hide-m"></td>
+            <td class="r" id="fwage"></td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
     <div class="pfooter" id="pfooter"></div>
   </div>
@@ -281,27 +241,30 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 
 <script>
 // =====================================================
-// 👇 แก้ตรงนี้เท่านั้น!
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQS03SObSso3QcF7CY5Ij-hLiceVGghYVvvsQt9NR9Mu_6EUCIEmB4vHl-QPFllmSn7ROl6JJRJPM3d/pub?gid=1437008773&single=true&output=csv";
 // =====================================================
 
-const C=["#2563eb","#d97706","#dc2626","#7c3aed","#0891b2","#059669","#db2777","#65a30d"];
-const L=["#eff6ff","#fffbeb","#fef2f2","#f5f3ff","#ecfeff","#f0fdf4","#fdf2f8","#f7fee7"];
-const TH=["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+const C  = ["#2563eb","#d97706","#dc2626","#7c3aed","#0891b2","#059669","#db2777","#65a30d"];
+const CL = ["#eff6ff","#fffbeb","#fef2f2","#f5f3ff","#ecfeff","#f0fdf4","#fdf2f8","#f7fee7"];
+const TH = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
 let allData=[],wCI=null,dCI=null,lCI=null,activeM="all";
 
 function mLabel(m){
-  if(m==="all")return"ทุกเดือน";
-  const[y,mo]=m.split("-");return`${TH[parseInt(mo)]} ${parseInt(y)+543}`;
+  if(m==="all") return "ทุกเดือน";
+  const [y,mo]=m.split("-");
+  return `${TH[parseInt(mo)]} ${parseInt(y)+543}`;
 }
-function hIdx(rows){
-  for(let i=0;i<rows.length;i++)if(rows[i].join(",").toLowerCase().includes("display_name"))return i;
+function hdrIdx(rows){
+  for(let i=0;i<rows.length;i++)
+    if(rows[i].join(",").toLowerCase().includes("display_name")) return i;
   return 0;
 }
 function getMonths(rows){
-  const d=rows.slice(hIdx(rows)+1).filter(r=>r[2]&&r[2].trim()!=="");
   const s=new Set();
-  d.forEach(r=>{const v=String(r[0]).substring(0,7);if(/^\d{4}-\d{2}$/.test(v))s.add(v)});
+  rows.slice(hdrIdx(rows)+1).filter(r=>r[2]&&r[2].trim()).forEach(r=>{
+    const v=String(r[0]).substring(0,7);
+    if(/^\d{4}-\d{2}$/.test(v)) s.add(v);
+  });
   return Array.from(s).sort();
 }
 
@@ -315,12 +278,17 @@ async function loadData(){
   ];
   let csv=null;
   for(const p of px){
-    try{const r=await fetch(p(SHEET_URL),{cache:"no-cache"});if(!r.ok)continue;const t=await r.text();if(t.includes(",")&&t.length>50){csv=t;break}}catch(e){continue}
+    try{
+      const r=await fetch(p(SHEET_URL),{cache:"no-cache"});
+      if(!r.ok) continue;
+      const t=await r.text();
+      if(t.includes(",")&&t.length>50){csv=t;break;}
+    }catch(e){continue;}
   }
-  if(!csv){hide("loading");show("error-box");return}
+  if(!csv){hide("loading");show("error-box");return;}
   allData=csv.trim().split("\n").map(row=>{
     const res=[];let cur="",q=false;
-    for(const ch of row){if(ch==='"'){q=!q}else if(ch===','&&!q){res.push(cur.trim());cur=""}else{cur+=ch}}
+    for(const ch of row){if(ch==='"'){q=!q}else if(ch===','&&!q){res.push(cur.trim());cur="";}else{cur+=ch;}}
     res.push(cur.trim());return res;
   });
   buildBtns();
@@ -331,44 +299,42 @@ async function loadData(){
 }
 
 function buildBtns(){
-  const months=getMonths(allData);
   const wrap=document.getElementById("mbtns");
   wrap.innerHTML="";
   const mk=(label,val)=>{
     const b=document.createElement("button");
     b.className="mbtn";b.textContent=label;b.dataset.m=val;
-    b.onclick=()=>{activeM=val;refreshBtns();render(val)};
+    b.onclick=()=>{activeM=val;refreshBtns();render(val);};
     wrap.appendChild(b);
   };
   mk("ทั้งหมด","all");
-  months.forEach(m=>mk(mLabel(m),m));
+  getMonths(allData).forEach(m=>mk(mLabel(m),m));
 }
 function refreshBtns(){
-  document.querySelectorAll(".mbtn").forEach(b=>b.classList.toggle("active",(b.dataset.m||"all")===activeM));
+  document.querySelectorAll(".mbtn").forEach(b=>b.classList.toggle("active",b.dataset.m===activeM));
 }
 
 function render(sel){
-  const hi=hIdx(allData);
-  let data=allData.slice(hi+1).filter(r=>r[2]&&r[2].trim()!=="");
-  if(sel!=="all")data=data.filter(r=>String(r[0]).substring(0,7)===sel);
+  const hi  =hdrIdx(allData);
+  const hrow=allData[hi]||[];
+  const lCol=hrow.findIndex(h=>String(h).toLowerCase().includes("late"));
+  let data=allData.slice(hi+1).filter(r=>r[2]&&r[2].trim());
+  if(sel!=="all") data=data.filter(r=>String(r[0]).substring(0,7)===sel);
 
   const em={};
-  // หา col index ของ late_count จาก header row
-  const headerRow = allData[hIdx(allData)] || [];
-  const lateCol   = headerRow.findIndex(h => String(h).toLowerCase().includes("late"));
-
   data.forEach(r=>{
     const n=r[2].trim(),d=parseFloat(r[3])||0,w=parseFloat(r[4])||0;
-    const late = lateCol >= 0 ? (parseFloat(r[lateCol])||0) : 0;
-    if(!em[n])em[n]={name:n,workDays:0,totalWage:0,lateCount:0};
-    em[n].workDays+=d;em[n].totalWage+=w;em[n].lateCount+=late;
+    const l=lCol>=0?(parseFloat(r[lCol])||0):0;
+    if(!em[n]) em[n]={name:n,workDays:0,totalWage:0,lateCount:0};
+    em[n].workDays+=d;em[n].totalWage+=w;em[n].lateCount+=l;
   });
-  const s=Object.values(em).sort((a,b)=>b.totalWage-a.totalWage);
-  const tw=s.reduce((x,e)=>x+e.totalWage,0);
-  const td=s.reduce((x,e)=>x+e.workDays,0);
+  const s  =Object.values(em).sort((a,b)=>b.totalWage-a.totalWage);
+  const tw =s.reduce((x,e)=>x+e.totalWage,0);
+  const td =s.reduce((x,e)=>x+e.workDays,0);
   const avg=td>0?Math.round(tw/td):0;
-  const mw=s[0]?.totalWage||1, md=Math.max(...s.map(e=>e.workDays))||1;
-  const ml=mLabel(sel);
+  const mw =s[0]?.totalWage||1;
+  const md =Math.max(...s.map(e=>e.workDays),1);
+  const ml =mLabel(sel);
 
   document.getElementById("pfooter").textContent=`HR Analytics · ${ml} · อัปเดต ${new Date().toLocaleString("th-TH")}`;
 
@@ -384,108 +350,114 @@ function render(sel){
     <div class="kpi-label">${k.l}</div>
   </div>`).join("");
 
-  // Table
+  // Table header
   document.getElementById("tsub").textContent=`พนักงาน ${s.length} คน · ${ml}`;
   document.getElementById("tpill").textContent=`฿${tw.toLocaleString()} รวม`;
   document.getElementById("fdays").textContent=`${td} วัน`;
   document.getElementById("fwage").textContent=`฿${tw.toLocaleString()}`;
+
+  // Table rows — ทั้ง desktop และ mobile ใช้ <tr><td> เดียวกัน แค่ toggle class
   document.getElementById("tbody").innerHTML=s.map((e,i)=>{
-    const c=C[i%C.length],cl=L[i%L.length];
-    const pct=e.totalWage/mw, dp=e.workDays/md;
-    const rate=e.workDays>0?Math.round(e.totalWage/e.workDays):0;
-    return`<div class="trow">
-      <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
-        <div class="tname">
-          <div class="tnum">${String(i+1).padStart(2,"0")}</div>
-          <div class="tavatar" style="background:${cl};color:${c}">${e.name.charAt(0).toUpperCase()}</div>
-          <span class="tnametext">${e.name}</span>
+    const c=C[i%C.length],cl=CL[i%CL.length];
+    const pct=e.totalWage/mw,dp=e.workDays/md;
+    const rt=e.workDays>0?Math.round(e.totalWage/e.workDays):0;
+    return`<tr>
+      <td style="font-size:12px;color:var(--text3);font-family:var(--mono);vertical-align:middle">${String(i+1).padStart(2,"0")}</td>
+      <td class="m-show" style="width:100%">
+        <div class="cname">
+          <div class="avatar" style="background:${cl};color:${c}">${e.name.charAt(0).toUpperCase()}</div>
+          <div style="flex:1;min-width:0">
+            <div class="ntext">${e.name}</div>
+            <div class="m-wage-row" style="display:none">
+              <span style="font-size:12px;color:var(--text3)">${e.workDays} วัน · ฿${rt.toLocaleString()}/วัน</span>
+              <span style="font-size:15px;font-weight:800;color:var(--text);font-family:var(--mono)">฿${e.totalWage.toLocaleString()}</span>
+            </div>
+          </div>
         </div>
-        <div class="twage" style="text-align:right">
-          <div class="twagenum">฿${e.totalWage.toLocaleString()}</div>
-          <div class="twagebar"><div class="twagebfill" style="width:${pct*100}%;background:${c}"></div></div>
+      </td>
+      <td class="r">
+        <div class="daywrap">
+          <div class="dbar"><div class="dbarfill" style="width:${dp*100}%;background:${c}"></div></div>
+          <span class="daynum">${e.workDays}</span>
         </div>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:4px;padding-left:4px">
-        <div class="tdaycell"><div class="tdaywrap"><div class="tbar"><div class="tbarfill" style="width:${dp*100}%;background:${c}"></div></div><span class="tdaynum">${e.workDays} วัน</span></div></div>
-        <div class="trate">อัตรา ฿${rate.toLocaleString()}/วัน</div>
-      </div>
-    </div>`;
+      </td>
+      <td class="r"><span class="rtext">฿${rt.toLocaleString()}</span></td>
+      <td class="r">
+        <div class="wnum">฿${e.totalWage.toLocaleString()}</div>
+        <div class="wbar"><div class="wbarfill" style="width:${pct*100}%;background:${c}"></div></div>
+      </td>
+    </tr>`;
   }).join("");
 
-  // Charts
-  const tip={backgroundColor:"#fff",titleColor:"#0f172a",bodyColor:"#475569",borderColor:"#e4e7f0",borderWidth:1,padding:12,cornerRadius:10,titleFont:{family:"Sarabun",size:16,weight:"700"},bodyFont:{family:"Sarabun",size:15}};
-  const sx={grid:{color:"#f0f1f6"},ticks:{color:"#94a3b8",font:{size:14,family:"Sarabun"}}};
-  const sy={grid:{color:"#f0f1f6"},ticks:{color:"#94a3b8",font:{size:14}}};
+  // Mobile: show .m-wage-row, hide day/rate/wage columns
+  applyMobileTable();
 
+  // Charts
+  const tip={backgroundColor:"#fff",titleColor:"#0f172a",bodyColor:"#475569",borderColor:"#e4e7f0",borderWidth:1,padding:10,cornerRadius:8,titleFont:{family:"Sarabun",size:13,weight:"700"},bodyFont:{family:"Sarabun",size:12}};
+  const sx={grid:{color:"#f0f1f6"},ticks:{color:"#94a3b8",font:{size:11,family:"Sarabun"}}};
+  const sy={grid:{color:"#f0f1f6"},ticks:{color:"#94a3b8",font:{size:11}}};
   if(wCI)wCI.destroy();if(dCI)dCI.destroy();if(lCI)lCI.destroy();
 
-  wCI=new Chart(document.getElementById("wageChart"),{
-    type:"bar",
-    data:{labels:s.map(e=>e.name),datasets:[{data:s.map(e=>e.totalWage),backgroundColor:C.map(c=>c+"28"),borderColor:C,borderWidth:2,borderRadius:7,hoverBackgroundColor:C.map(c=>c+"55")}]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:ctx=>`  ฿${ctx.raw.toLocaleString()}`}}},
-      scales:{x:{...sx},y:{...sy,ticks:{callback:v=>`${(v/1000).toFixed(0)}K`,color:"#94a3b8",font:{size:14}}}}}
-  });
+  wCI=new Chart(document.getElementById("wageChart"),{type:"bar",
+    data:{labels:s.map(e=>e.name),datasets:[{data:s.map(e=>e.totalWage),backgroundColor:C.map(c=>c+"28"),borderColor:C,borderWidth:2,borderRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:ctx=>`  ฿${ctx.raw.toLocaleString()}`}}},
+      scales:{x:sx,y:{...sy,ticks:{callback:v=>`${(v/1000).toFixed(0)}K`,color:"#94a3b8",font:{size:11}}}}}});
 
-  dCI=new Chart(document.getElementById("daysChart"),{
-    type:"bar",
+  dCI=new Chart(document.getElementById("daysChart"),{type:"bar",
     data:{labels:s.map(e=>e.name),datasets:[{data:s.map(e=>e.workDays),backgroundColor:C.map(c=>c+"28"),borderColor:C,borderWidth:2,borderRadius:5,borderSkipped:false}]},
-    options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:ctx=>`  ${ctx.raw} วัน`}}},
-      scales:{x:{...sx},y:{...sy,ticks:{color:"#94a3b8",font:{size:14,family:"Sarabun"}}}}}
-  });
+    options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:ctx=>`  ${ctx.raw} วัน`}}},
+      scales:{x:sx,y:sx}}});
 
-  // Late chart
-  const lateSorted = [...s].sort((a,b)=>b.lateCount-a.lateCount);
-  const lateColors = lateSorted.map(e =>
-    e.lateCount === 0 ? "#059669" : e.lateCount <= 3 ? "#d97706" : "#ef4444"
-  );
-  const lateBg = lateSorted.map(e =>
-    e.lateCount === 0 ? "#f0fdf4" : e.lateCount <= 3 ? "#fffbeb" : "#fef2f2"
-  );
+  const ls=s.map(e=>({...e})).sort((a,b)=>b.lateCount-a.lateCount);
+  lCI=new Chart(document.getElementById("lateChart"),{type:"bar",
+    data:{labels:ls.map(e=>e.name),datasets:[{
+      data:ls.map(e=>e.lateCount),
+      backgroundColor:ls.map(e=>e.lateCount===0?"#f0fdf4":e.lateCount<=3?"#fffbeb":"#fef2f2"),
+      borderColor:ls.map(e=>e.lateCount===0?"#059669":e.lateCount<=3?"#d97706":"#ef4444"),
+      borderWidth:2,borderRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:ctx=>`  สาย ${ctx.raw} ครั้ง`}}},
+      scales:{x:sx,y:{...sy,ticks:{stepSize:1,color:"#94a3b8",font:{size:11}},min:0}}}});
 
-  lCI = new Chart(document.getElementById("lateChart"),{
-    type:"bar",
-    data:{
-      labels:lateSorted.map(e=>e.name),
-      datasets:[{
-        data:lateSorted.map(e=>e.lateCount),
-        backgroundColor:lateBg, borderColor:lateColors,
-        borderWidth:2, borderRadius:7
-      }]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        tooltip:{...tip, callbacks:{label:ctx=>`  สาย ${ctx.raw} ครั้ง`}}
-      },
-      scales:{
-        x:{...sx, ticks:{color:"#94a3b8",font:{size:13,family:"Sarabun"}}},
-        y:{...sy, ticks:{stepSize:1,color:"#94a3b8",font:{size:14}}}
-      }
-    }
-  });
-
-  // Late list
-  document.getElementById("lateList").innerHTML = lateSorted.map(e => {
-    const cls = e.lateCount===0?"late-ok":e.lateCount<=3?"late-warn":"late-bad";
-    const icon = e.lateCount===0?"✅":e.lateCount<=3?"⚠️":"🔴";
-    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border2)">
-      <div style="display:flex;align-items:center;gap:10px">
-        <span style="font-size:18px">${icon}</span>
-        <span style="font-size:17px;font-weight:600;color:var(--text)">${e.name}</span>
+  document.getElementById("lateList").innerHTML=ls.map(e=>{
+    const cls=e.lateCount===0?"lok":e.lateCount<=3?"lwarn":"lbad";
+    const icon=e.lateCount===0?"✅":e.lateCount<=3?"⚠️":"🔴";
+    return`<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border2)">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:16px">${icon}</span>
+        <span style="font-size:15px;font-weight:600;color:var(--text)">${e.name}</span>
       </div>
-      <span class="late-badge ${cls}"><span class="late-dot"></span>${e.lateCount} ครั้ง</span>
+      <span class="lbadge ${cls}"><span class="ldot"></span>${e.lateCount} ครั้ง</span>
     </div>`;
   }).join("");
 
   hide("loading");show("app");
 }
 
+function applyMobileTable(){
+  const isMobile=window.innerWidth<=768;
+  document.querySelectorAll(".dtable tbody tr").forEach(tr=>{
+    const cells=tr.querySelectorAll("td");
+    if(isMobile){
+      // แสดงเฉพาะ: #(0) name(1) → ซ่อน day(2) rate(3) wage(4)
+      cells[0].style.display="none"; // ซ่อน #
+      cells[2].style.display="none"; // ซ่อน วัน
+      cells[3].style.display="none"; // ซ่อน อัตรา
+      cells[4].style.display="none"; // ซ่อน ค่าแรง
+      const mw=tr.querySelector(".m-wage-row");
+      if(mw) mw.style.display="flex";
+    } else {
+      cells[0].style.display=""; cells[2].style.display="";
+      cells[3].style.display=""; cells[4].style.display="";
+      const mw=tr.querySelector(".m-wage-row");
+      if(mw) mw.style.display="none";
+    }
+  });
+}
+
+window.addEventListener("resize",applyMobileTable);
 function show(id){document.getElementById(id).style.display=id==="loading"?"flex":"block"}
 function hide(id){document.getElementById(id).style.display="none"}
-
 loadData();
 </script>
 </body>
