@@ -91,6 +91,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .trow:hover{background:#fafbfd}
 .tnum{font-size:15px;color:var(--text3);font-family:var(--mono)}
 .tname{display:flex;align-items:center;gap:12px}
+.tname .twage{display:none} /* twage ใน tname ซ่อนบน desktop */
+.trow-info{display:none} /* ซ่อนบน desktop ใช้ grid แทน */
 .tavatar{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex-shrink:0}
 .tnametext{font-size:20px;font-weight:700;color:var(--text)}
 .tdaycell{text-align:right}
@@ -153,36 +155,48 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   .card-sub{font-size:13px;margin-bottom:14px}
   .chart-wrap{height:220px}
 
-  /* table → card style */
+  .trow-info{display:flex !important;justify-content:space-between;align-items:center;width:100%}
+  .trow .tname .twage{display:flex !important;flex-direction:column;align-items:flex-end;margin-left:auto}
+  .trow .tname .twagenum{font-size:16px !important;font-weight:800}
+  .thead{display:none}
+  .trow{
+    display:flex !important;
+    flex-direction:column !important;
+    padding:14px 16px !important;
+    gap:8px !important;
+    border-bottom:1px solid var(--border2);
+  }
+  .trow .tnum{display:none}
+  .trow .tname{
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center;
+    gap:10px;
+    width:100%;
+  }
+  .trow .tavatar{width:36px !important;height:36px !important;font-size:15px !important;flex-shrink:0}
+  .trow .tnametext{font-size:16px !important;flex:1}
+  .trow .twage{display:flex !important;flex-direction:row !important;align-items:center;justify-content:flex-end}
+  .trow .twagenum{font-size:17px !important}
+  .trow .twagebar{display:none}
+  .trow .tdaycell{text-align:left !important}
+  .trow .tdaywrap{justify-content:flex-start !important}
+  .trow .tbar{width:50px}
+  .trow .tdaynum{font-size:15px !important}
+  .trow .trate{font-size:13px !important;color:var(--text3);text-align:left !important}
+  .trow-info{display:flex;justify-content:space-between;align-items:center;width:100%}
   .tt{padding:14px 16px 12px;flex-wrap:wrap;gap:8px}
   .tt h2{font-size:16px}
   .tt p{font-size:13px}
   .tpill{font-size:14px;padding:6px 12px}
-  .thead{display:none} /* ซ่อน header แถว */
-  .trow{
-    display:flex;flex-direction:column;
-    padding:14px 16px;gap:6px;
-    border-bottom:1px solid var(--border2);
-  }
-  .trow-top{display:flex;align-items:center;justify-content:space-between}
-  .tnum{display:none}
-  .tname{gap:10px}
-  .tavatar{width:38px;height:38px;font-size:16px}
-  .tnametext{font-size:17px}
-  .tdaycell,.trate,.twage{text-align:left}
-  .tdaywrap{justify-content:flex-start}
-  .tbar{width:60px}
-  .tdaynum{font-size:16px}
-  .trate{font-size:14px;color:var(--text3)}
-  .twagenum{font-size:18px}
-  .twagebar{margin-left:0;width:100%}
   .tfoot{
-    display:flex;justify-content:space-between;align-items:center;
+    display:flex !important;
+    justify-content:space-between;align-items:center;
     padding:14px 16px;flex-wrap:wrap;gap:6px
   }
   .tflabel{font-size:14px}
-  .tfdays{text-align:left;font-size:14px}
-  .tfwage{font-size:20px}
+  .tfdays{text-align:left !important;font-size:14px !important;order:2}
+  .tfwage{font-size:18px !important;order:3}
 
   /* late list */
   #lateList div{padding:8px 0}
@@ -394,20 +408,21 @@ function render(sel){
     const pct=e.totalWage/mw, dp=e.workDays/md;
     const rate=e.workDays>0?Math.round(e.totalWage/e.workDays):0;
     return`<div class="trow">
-      <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
-        <div class="tname">
-          <div class="tnum">${String(i+1).padStart(2,"0")}</div>
-          <div class="tavatar" style="background:${cl};color:${c}">${e.name.charAt(0).toUpperCase()}</div>
-          <span class="tnametext">${e.name}</span>
-        </div>
-        <div class="twage" style="text-align:right">
+      <div class="tnum">${String(i+1).padStart(2,"0")}</div>
+      <div class="tname" data-wage="฿${e.totalWage.toLocaleString()}">
+        <div class="tavatar" style="background:${cl};color:${c}">${e.name.charAt(0).toUpperCase()}</div>
+        <span class="tnametext">${e.name}</span>
+        <div class="twage">
           <div class="twagenum">฿${e.totalWage.toLocaleString()}</div>
           <div class="twagebar"><div class="twagebfill" style="width:${pct*100}%;background:${c}"></div></div>
         </div>
       </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:4px;padding-left:4px">
-        <div class="tdaycell"><div class="tdaywrap"><div class="tbar"><div class="tbarfill" style="width:${dp*100}%;background:${c}"></div></div><span class="tdaynum">${e.workDays} วัน</span></div></div>
-        <div class="trate">อัตรา ฿${rate.toLocaleString()}/วัน</div>
+      <div class="trow-info">
+        <div class="tdaycell"><div class="tdaywrap">
+          <div class="tbar"><div class="tbarfill" style="width:${dp*100}%;background:${c}"></div></div>
+          <span class="tdaynum">${e.workDays} วัน</span>
+        </div></div>
+        <div class="trate">฿${rate.toLocaleString()}/วัน</div>
       </div>
     </div>`;
   }).join("");
