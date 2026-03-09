@@ -109,91 +109,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .tfwage{text-align:right;font-size:24px;font-weight:800;color:var(--gold);font-family:var(--mono)}
 .pfooter{text-align:center;padding:20px 0 6px;color:var(--text3);font-size:14px}
 
-/* LATE CHART */
-.late-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
-.late-badge{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:700;font-family:var(--mono)}
-.late-ok  {background:#f0fdf4;color:#059669;border:1px solid #86efac}
-.late-warn{background:#fffbeb;color:#d97706;border:1px solid #fcd34d}
-.late-bad {background:#fef2f2;color:#ef4444;border:1px solid #fca5a5}
-.late-dot {width:7px;height:7px;border-radius:50%;background:currentColor}
-
-/* ── MOBILE ── */
-@media(max-width:768px){
-  /* header */
-  .header{padding:0 16px;height:60px}
-  .logo{width:38px;height:38px;font-size:18px}
-  .header h1{font-size:16px}
-  .header-sub{display:none}
-  .btn{padding:7px 12px;font-size:13px}
-  .btn-g{display:none} /* ซ่อนปุ่ม refresh บนมือถือ */
-
-  /* month bar */
-  .mbar{padding:10px 16px;gap:8px;overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}
-  .mbar::-webkit-scrollbar{display:none}
-  .mbar-lbl{display:none}
-  .mbtn{padding:7px 16px;font-size:14px;flex-shrink:0}
-
-  /* main */
-  .main{padding:16px}
-
-  /* KPI 2x2 */
-  .kpi-grid{grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-  .kpi-card{padding:16px}
-  .kpi-icon{width:40px;height:40px;font-size:20px}
-  .kpi-val{font-size:30px;letter-spacing:-1px}
-  .kpi-val span{font-size:14px}
-  .kpi-label{font-size:12px}
-  .kpi-badge{font-size:11px;padding:2px 7px}
-
-  /* charts 1 col */
-  .charts-row{grid-template-columns:1fr;gap:12px;margin-bottom:14px}
-  .late-row{grid-template-columns:1fr;gap:12px;margin-bottom:14px}
-  .card{padding:16px}
-  .card-title{font-size:16px}
-  .card-sub{font-size:13px;margin-bottom:14px}
-  .chart-wrap{height:220px}
-
-  /* table → card style */
-  .tt{padding:14px 16px 12px;flex-wrap:wrap;gap:8px}
-  .tt h2{font-size:16px}
-  .tt p{font-size:13px}
-  .tpill{font-size:14px;padding:6px 12px}
-  .thead{display:none} /* ซ่อน header แถว */
-  .trow{
-    display:flex;flex-direction:column;
-    padding:14px 16px;gap:6px;
-    border-bottom:1px solid var(--border2);
-  }
-  .trow-top{display:flex;align-items:center;justify-content:space-between}
-  .tnum{display:none}
-  .tname{gap:10px}
-  .tavatar{width:38px;height:38px;font-size:16px}
-  .tnametext{font-size:17px}
-  .tdaycell,.trate,.twage{text-align:left}
-  .tdaywrap{justify-content:flex-start}
-  .tbar{width:60px}
-  .tdaynum{font-size:16px}
-  .trate{font-size:14px;color:var(--text3)}
-  .twagenum{font-size:18px}
-  .twagebar{margin-left:0;width:100%}
-  .tfoot{
-    display:flex;justify-content:space-between;align-items:center;
-    padding:14px 16px;flex-wrap:wrap;gap:6px
-  }
-  .tflabel{font-size:14px}
-  .tfdays{text-align:left;font-size:14px}
-  .tfwage{font-size:20px}
-
-  /* late list */
-  #lateList div{padding:8px 0}
-  .late-badge{font-size:12px}
-}
-
-@media(max-width:400px){
-  .kpi-grid{grid-template-columns:1fr 1fr}
-  .kpi-val{font-size:24px}
-}
-
 @media print{
   body{background:#fff!important}
   .header{position:static!important}
@@ -244,21 +159,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
         <div class="chart-wrap"><canvas id="daysChart"></canvas></div>
       </div>
     </div>
-
-    <!-- LATE CHART ROW -->
-    <div class="late-row">
-      <div class="card" style="animation-delay:.36s">
-        <div class="card-title">⚠️ สายบ่อยไหม?</div>
-        <div class="card-sub">จำนวนครั้งที่เข้าหลัง 08:00 น.</div>
-        <div class="chart-wrap"><canvas id="lateChart"></canvas></div>
-      </div>
-      <div class="card" style="animation-delay:.42s">
-        <div class="card-title">📋 สรุปรายคน</div>
-        <div class="card-sub">เข้าสายมากกว่า 3 ครั้ง = ⚠️ ต้องระวัง</div>
-        <div id="lateList" style="margin-top:6px"></div>
-      </div>
-    </div>
-
     <div class="tc">
       <div class="tt">
         <div><h2>ตารางการทำงานและค่าแรง</h2><p id="tsub"></p></div>
@@ -288,7 +188,7 @@ const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQS03SObSso3Q
 const C=["#2563eb","#d97706","#dc2626","#7c3aed","#0891b2","#059669","#db2777","#65a30d"];
 const L=["#eff6ff","#fffbeb","#fef2f2","#f5f3ff","#ecfeff","#f0fdf4","#fdf2f8","#f7fee7"];
 const TH=["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
-let allData=[],wCI=null,dCI=null,lCI=null,activeM="all";
+let allData=[],wCI=null,dCI=null,activeM="all";
 
 function mLabel(m){
   if(m==="all")return"ทุกเดือน";
@@ -353,15 +253,10 @@ function render(sel){
   if(sel!=="all")data=data.filter(r=>String(r[0]).substring(0,7)===sel);
 
   const em={};
-  // หา col index ของ late_count จาก header row
-  const headerRow = allData[hIdx(allData)] || [];
-  const lateCol   = headerRow.findIndex(h => String(h).toLowerCase().includes("late"));
-
   data.forEach(r=>{
     const n=r[2].trim(),d=parseFloat(r[3])||0,w=parseFloat(r[4])||0;
-    const late = lateCol >= 0 ? (parseFloat(r[lateCol])||0) : 0;
-    if(!em[n])em[n]={name:n,workDays:0,totalWage:0,lateCount:0};
-    em[n].workDays+=d;em[n].totalWage+=w;em[n].lateCount+=late;
+    if(!em[n])em[n]={name:n,workDays:0,totalWage:0};
+    em[n].workDays+=d;em[n].totalWage+=w;
   });
   const s=Object.values(em).sort((a,b)=>b.totalWage-a.totalWage);
   const tw=s.reduce((x,e)=>x+e.totalWage,0);
@@ -394,21 +289,11 @@ function render(sel){
     const pct=e.totalWage/mw, dp=e.workDays/md;
     const rate=e.workDays>0?Math.round(e.totalWage/e.workDays):0;
     return`<div class="trow">
-      <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
-        <div class="tname">
-          <div class="tnum">${String(i+1).padStart(2,"0")}</div>
-          <div class="tavatar" style="background:${cl};color:${c}">${e.name.charAt(0).toUpperCase()}</div>
-          <span class="tnametext">${e.name}</span>
-        </div>
-        <div class="twage" style="text-align:right">
-          <div class="twagenum">฿${e.totalWage.toLocaleString()}</div>
-          <div class="twagebar"><div class="twagebfill" style="width:${pct*100}%;background:${c}"></div></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:4px;padding-left:4px">
-        <div class="tdaycell"><div class="tdaywrap"><div class="tbar"><div class="tbarfill" style="width:${dp*100}%;background:${c}"></div></div><span class="tdaynum">${e.workDays} วัน</span></div></div>
-        <div class="trate">อัตรา ฿${rate.toLocaleString()}/วัน</div>
-      </div>
+      <div class="tnum">${String(i+1).padStart(2,"0")}</div>
+      <div class="tname"><div class="tavatar" style="background:${cl};color:${c}">${e.name.charAt(0).toUpperCase()}</div><span class="tnametext">${e.name}</span></div>
+      <div class="tdaycell"><div class="tdaywrap"><div class="tbar"><div class="tbarfill" style="width:${dp*100}%;background:${c}"></div></div><span class="tdaynum">${e.workDays}</span></div></div>
+      <div class="trate">฿${rate.toLocaleString()}</div>
+      <div class="twage"><div class="twagenum">฿${e.totalWage.toLocaleString()}</div><div class="twagebar"><div class="twagebfill" style="width:${pct*100}%;background:${c}"></div></div></div>
     </div>`;
   }).join("");
 
@@ -417,7 +302,7 @@ function render(sel){
   const sx={grid:{color:"#f0f1f6"},ticks:{color:"#94a3b8",font:{size:14,family:"Sarabun"}}};
   const sy={grid:{color:"#f0f1f6"},ticks:{color:"#94a3b8",font:{size:14}}};
 
-  if(wCI)wCI.destroy();if(dCI)dCI.destroy();if(lCI)lCI.destroy();
+  if(wCI)wCI.destroy();if(dCI)dCI.destroy();
 
   wCI=new Chart(document.getElementById("wageChart"),{
     type:"bar",
@@ -434,51 +319,6 @@ function render(sel){
       plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:ctx=>`  ${ctx.raw} วัน`}}},
       scales:{x:{...sx},y:{...sy,ticks:{color:"#94a3b8",font:{size:14,family:"Sarabun"}}}}}
   });
-
-  // Late chart
-  const lateSorted = [...s].sort((a,b)=>b.lateCount-a.lateCount);
-  const lateColors = lateSorted.map(e =>
-    e.lateCount === 0 ? "#059669" : e.lateCount <= 3 ? "#d97706" : "#ef4444"
-  );
-  const lateBg = lateSorted.map(e =>
-    e.lateCount === 0 ? "#f0fdf4" : e.lateCount <= 3 ? "#fffbeb" : "#fef2f2"
-  );
-
-  lCI = new Chart(document.getElementById("lateChart"),{
-    type:"bar",
-    data:{
-      labels:lateSorted.map(e=>e.name),
-      datasets:[{
-        data:lateSorted.map(e=>e.lateCount),
-        backgroundColor:lateBg, borderColor:lateColors,
-        borderWidth:2, borderRadius:7
-      }]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        tooltip:{...tip, callbacks:{label:ctx=>`  สาย ${ctx.raw} ครั้ง`}}
-      },
-      scales:{
-        x:{...sx, ticks:{color:"#94a3b8",font:{size:13,family:"Sarabun"}}},
-        y:{...sy, ticks:{stepSize:1,color:"#94a3b8",font:{size:14}}}
-      }
-    }
-  });
-
-  // Late list
-  document.getElementById("lateList").innerHTML = lateSorted.map(e => {
-    const cls = e.lateCount===0?"late-ok":e.lateCount<=3?"late-warn":"late-bad";
-    const icon = e.lateCount===0?"✅":e.lateCount<=3?"⚠️":"🔴";
-    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border2)">
-      <div style="display:flex;align-items:center;gap:10px">
-        <span style="font-size:18px">${icon}</span>
-        <span style="font-size:17px;font-weight:600;color:var(--text)">${e.name}</span>
-      </div>
-      <span class="late-badge ${cls}"><span class="late-dot"></span>${e.lateCount} ครั้ง</span>
-    </div>`;
-  }).join("");
 
   hide("loading");show("app");
 }
